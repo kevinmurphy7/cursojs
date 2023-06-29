@@ -4,65 +4,17 @@ const verCarrito = document.getElementById ("ver-carrito");
 const modalContainer = document.getElementById ("modal-container");
 const cantidadCarrito = document.getElementById ("cantidadCarrito");
 
-const productos = [
-    {
-        id:1,
-        nombre: "Camiseta Titular",
-        precio: 17000,
-        img: "https://http2.mlstatic.com/D_NQ_NP_866232-MLA53707740636_022023-O.webp",
-        cantidad:1,
-    },
-    {
-        id:2,
-        nombre: "Camiseta Suplente",
-        precio: 16000,
-        img: "https://http2.mlstatic.com/D_NQ_NP_857174-MLA53707915203_022023-O.webp",
-        cantidad:1,
-    },
-    {
-        id:3,
-        nombre: "Camiseta Arquero",
-        precio: 17000,
-        img: "https://http2.mlstatic.com/D_NQ_NP_996663-MLA53708726206_022023-O.webp",
-        cantidad:1,
-    },
-    {
-        id:4,
-        nombre: "Short",
-        precio: 9500,
-        img: "https://afaar.vtexassets.com/arquivos/ids/155957-800-auto?v=638127783482670000&width=800&height=auto&aspect=true",
-        cantidad:1,
-    },
-    {
-        id:5,
-        nombre: "Camiseta Entreno",
-        precio: 12000,
-        img: "https://http2.mlstatic.com/D_NQ_NP_834077-MLA54960468666_042023-O.webp",
-        cantidad:1,
-    },   
-    {
-        id:6,
-        nombre: "Rompevientos",
-        precio: 22000,
-        img: "https://http2.mlstatic.com/D_NQ_NP_731087-MLA69362988951_052023-O.webp",
-        cantidad:1,
-    },    
-    {
-        id:7,
-        nombre: "Jogging",
-        precio: 17000,
-        img: "https://http2.mlstatic.com/D_NQ_NP_775237-MLA54816514299_042023-O.webp",
-        cantidad:1,
-    },
-    {id:8,
-    nombre: "Medias",
-    precio: 1500,
-    img: "https://http2.mlstatic.com/D_NQ_NP_604931-MLA49762185246_042022-O.webp",
-    cantidad:1,
-    }
-];
+
 
 let carrito = JSON.parse (localStorage.getItem ("carrito")) || [];
+
+
+alert ("Bienvenido/a a la tienda oficial del Club Estudiantes de La Plata");
+function saludar (){
+    alert("Que suerte tenés de ser el único campeón de la ciudad");
+}
+setTimeout (saludar,2000);
+
 
 productos.forEach ((prod)=>{
     let content = document.createElement ("div");
@@ -96,6 +48,18 @@ productos.forEach ((prod)=>{
                 cantidad:prod.cantidad,
             });
         } 
+        Toastify({
+            text: "Has agregado un producto",
+            duration:6000,
+            gravity: "bottom", 
+            position:"center",
+            style:{
+                fontSize:"25px",
+                fontFamily: "Verdana",
+                color: "red",
+                background: "gray",
+                }
+            }).showToast();
         contador ();
         guardar();
     });
@@ -126,23 +90,82 @@ productos.forEach ((prod)=>{
         carritoContent.innerHTML = `
                                     <img src="${prod.img}">
                                     <h3>${prod.nombre}</h3>
+                                    <span class="restar"> - </span>
                                     <p>Cantidad: ${prod.cantidad}</p>
+                                    <span class="sumar"> + </span>
                                     <p>Subtotal: ${prod.cantidad * prod.precio} $</p>
                                     <span class = "borrar-producto"> X </span>
         `;
         modalContainer.append (carritoContent);
 
+        let restar = carritoContent.querySelector(".restar");
+        restar.addEventListener("click",()=>{
+            if(prod.cantidad !== 1){
+                prod.cantidad--;
+                Toastify({
+                    text: "Has quitado un producto🛒",
+                    duration:6000,
+                    gravity: "bottom", 
+                    position:"center",
+                    style:{
+                        fontSize:"25px",
+                        fontFamily: "Verdana",
+                        color: "red",
+                        background: "gray",
+                        }
+                    }).showToast();
+            }
+            pintarCarrito();
+            guardar();
+        })
+
+        let sumar = carritoContent.querySelector(".sumar");
+        sumar.addEventListener("click",()=>{
+            prod.cantidad++;
+            Toastify({
+                text: "Has agregado un producto🛒",
+                duration:6000,
+                gravity: "bottom", 
+                position:"center",
+                style:{
+                    fontSize:"25px",
+                    fontFamily: "Verdana",
+                    color: "red",
+                    background: "gray",
+                    }
+                }).showToast();
+            pintarCarrito();
+            guardar();
+        })
+
         let eliminar = carritoContent.querySelector (".borrar-producto");
         eliminar.addEventListener ("click",()=>{
             eliminarProducto(prod.id);
+            Toastify({
+                text: "Has eliminado el producto🛒",
+                duration:6000,
+                gravity: "bottom", 
+                position:"center",
+                style:{
+                    fontSize:"25px",
+                    fontFamily: "Verdana",
+                    color: "red",
+                    background: "gray",
+                    }
+                }).showToast();
+            pintarCarrito();
+            guardar();
         })
     });
-    
+
     const total= carrito.reduce ((acu,el)=>acu+ el.precio*el.cantidad, 0);
     const totalCompra = document.createElement ("div");
     totalCompra.className = "total-content";
-    totalCompra.innerHTML = `Total a pagar: ${total}$`; 
+    totalCompra.innerHTML = `Total a pagar: ${total}$
+                            <button class="btn-compra">Comprar</button>
+    `; 
     modalContainer.append (totalCompra);
+
 };
 
 verCarrito.addEventListener ("click" ,pintarCarrito);
@@ -171,3 +194,23 @@ contador();
 const guardar = ()=>{
     localStorage.setItem ("carrito", JSON.stringify (carrito));
 };
+
+
+function position (posicion){
+    let lat = posicion.coords.latitude;
+    let lon = posicion.coords.longitude;
+    let key= "cb70d4c84af71241c72c22cf83f8f816";
+
+    fetch (`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${key}&units=metric&lang=es`)
+        .then(response => response.json())
+        .then(data => {
+            const mostrar_clima =document.createElement("div");
+            mostrar_clima.className="mostrar-clima";
+            mostrar_clima.innerHTML = `<p>${data.name}</p>
+                                        <p>Temp:${data.main.temp}</p>
+                                        <p>Clima:${data.weather[0].description}</p>
+                                        `
+        })
+}
+
+navigator.geolocation.getCurrentPosition (position);

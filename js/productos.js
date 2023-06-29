@@ -1,0 +1,57 @@
+const productos = [
+    {
+        id:1,
+        nombre: "Camiseta Titular",
+        precio: 17000,
+        img: "https://http2.mlstatic.com/D_NQ_NP_866232-MLA53707740636_022023-O.webp",
+        cantidad:1,
+    },
+    {
+        id:2,
+        nombre: "Camiseta Suplente",
+        precio: 16000,
+        img: "https://http2.mlstatic.com/D_NQ_NP_857174-MLA53707915203_022023-O.webp",
+        cantidad:1,
+    },
+    {
+        id:3,
+        nombre: "Camiseta Arquero",
+        precio: 17000,
+        img: "https://http2.mlstatic.com/D_NQ_NP_996663-MLA53708726206_022023-O.webp",
+        cantidad:1,
+    },
+    {
+        id:4,
+        nombre: "Short",
+        precio: 9500,
+        img: "https://afaar.vtexassets.com/arquivos/ids/155957-800-auto?v=638127783482670000&width=800&height=auto&aspect=true",
+        cantidad:1,
+    },
+    {
+        id:5,
+        nombre: "Camiseta Entreno",
+        precio: 12000,
+        img: "https://http2.mlstatic.com/D_NQ_NP_834077-MLA54960468666_042023-O.webp",
+        cantidad:1,
+    },   
+    {
+        id:6,
+        nombre: "Rompevientos",
+        precio: 22000,
+        img: "https://http2.mlstatic.com/D_NQ_NP_731087-MLA69362988951_052023-O.webp",
+        cantidad:1,
+    },    
+    {
+        id:7,
+        nombre: "Jogging",
+        precio: 17000,
+        img: "https://http2.mlstatic.com/D_NQ_NP_775237-MLA54816514299_042023-O.webp",
+        cantidad:1,
+    },
+    {id:8,
+    nombre: "Medias",
+    precio: 1500,
+    img: "https://http2.mlstatic.com/D_NQ_NP_604931-MLA49762185246_042022-O.webp",
+    cantidad:1,
+    }
+];

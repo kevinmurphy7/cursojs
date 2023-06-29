@@ -133,3 +133,22 @@ header {
     display: none;
 }
 
+.restar{
+    cursor: pointer;
+}
+
+.sumar{
+    cursor: pointer;
+}
+
+.btn-compra {
+    cursor: pointer;
+    background-color: red;
+    color: white;
+    padding: 10px;
+}
+
+.btn-compra:hover {
+    background-color: palevioletred;
+}
+
